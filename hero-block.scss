@@ -1,0 +1,138 @@
+@import '../colour-vars';
+
+.wp-block-acf-hero-block {
+    max-width: none !important;
+    position: relative;
+    z-index: 2;
+
+    &__background {
+        object-fit: cover;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100% !important;
+        z-index: -1;
+    }
+
+    &__size-large {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem 5%;
+    }
+
+    &__foreground {
+        flex: 1 1 40%;
+        padding: clamp(1rem, 2.5%, 4rem);
+
+        img {
+            max-width: clamp(1px, 80%, 500px);
+            display: block;
+            margin-inline: auto;
+            opacity: 0;
+            animation: fade-in 0.5s ease-out 0.75s forwards;
+        }
+    }
+
+    &__content-container {
+        position: relative;
+        flex: 1 0 50%;
+        max-width: 1250px;
+        margin-block: clamp(1rem, 5%, 4rem);
+        margin-right: 1rem;
+        padding-block: clamp(1rem, 2.5%, 4rem);
+        padding-right: clamp(1rem, 5%, 4rem);
+        padding-left: clamp(1rem, 15%, 25vw);
+        animation: slide-in-from-left 0.5s ease-out;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-color: rgba($dark-blue, 0.45);
+            mix-blend-mode: multiply;
+            z-index: -1;
+        }
+
+        .acf-innerblocks-container {
+            isolation: isolate;
+
+            >* {
+                opacity: 0;
+            }
+
+            @for $i from 1 through 5 {
+                >*:nth-child(#{$i}) {
+                    animation: fade-in 1s ease-out #{$i * 0.15 + 0.3}s forwards;
+                }
+            }
+        }
+
+        * {
+            color: $white;
+        }
+    }
+
+    &__size-small {
+        aspect-ratio: 16/3.5;
+
+        @media all and (orientation: portrait) {
+            aspect-ratio: 4/2;
+        }
+
+        position: relative;
+        margin-left: clamp(50px, 10%, 400px);
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            bottom: -5px;
+            left: -5px;
+            aspect-ratio: 270/240;
+            background-size: contain;
+            background-image: url('data:image/svg+xml,<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 271.75 241.2"><defs><clipPath id="clippath"><path stroke-width="0" fill="none" d="M0 0h271.74v241.2H0z"/></clipPath><style>.cls-1{stroke:%23fff;stroke-miterlimit:10;stroke-width:3px;fill:none}</style></defs><g clip-path="url(%23clippath)"><path class="cls-1" d="m100.36 66.2 35.54 63.15-62.16 110.34H2.57L100.36 66.2z"/><path class="cls-1" d="M269.18 239.7h-71.15L135.9 129.33l-35.55-63.12 20.23-35.99L135.9 3.06l35.6 63.2 97.68 173.44z"/><path class="cls-1" d="m188.6 162.58-43.44 77.11 86.85.01-43.41-77.12z"/></g></svg>');
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            aspect-ratio: 270/240;
+            top: -1px;
+            left: 0;
+            bottom: 0;
+            background-color: $white;
+            clip-path: polygon(50% 100%, 0 0, 100% 0);
+            transform: translateX(-50%);
+        }
+    }
+}
+
+// Animation keyframes
+
+@keyframes slide-in-from-left {
+    from {
+        transform: translateX(-50%);
+        opacity: 0.25;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
